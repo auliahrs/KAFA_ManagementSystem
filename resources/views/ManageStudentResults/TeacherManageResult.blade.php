@@ -11,92 +11,89 @@
             <div class="col-md-12">
                 
                 <div class="row">
-                    
-                        
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            Name:
-                                        </div>
-                                        <div class="col-md-6">
-                                            {{$student->studentName}}
-                                        </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        Name:
                                     </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            Year:
-                                        </div>
-                                        <div class="col-md-6">
-                                            <select class="form-select form-select-sm" name="year" id="year">
-                                                @for ($year = 2020; $year <= date('Y'); $year++)
-                                                    <option value="{{ $year }}">{{ $year }}</option>
-                                                @endfor
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                        </div>
-                                        <div class="col-md-6">
-                                        </div>
+                                    <div class="col-md-6">
+                                        {{$student->studentName}}
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            Standard / Class:
-                                        </div>
-                                        <div class="col-md-6">
-                                            {{$classroom->classroomName}}
-                                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        Year:
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select class="form-select form-select-sm" name="year" id="year">
+                                            @for ($year = 2020; $year <= date('Y'); $year++)
+                                                <option value="{{ $year }}">{{ $year }}</option>
+                                            @endfor
+                                        </select>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            Type of Examination:
-                                        </div>
-                                        <div class="col-md-6">
-                                            <select class="form-select form-select-sm" name="typeOfExamination" id="typeOfExamination">
-                                                
-                                                <option value="Mid-year Examination">Mid-year Examination</option>
-                                                <option value="Final-year Examination">Final-year Examination</option>
-                                                
-                                            </select>
-                                        </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                    </div>
+                                    <div class="col-md-6">
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="row">
-                                        <div class="col-md-6">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        Standard / Class:
+                                    </div>
+                                    <div class="col-md-6">
+                                        {{$classroom->classroomName}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        Type of Examination:
+                                    </div>
+                                    <div class="col-md-6">
+                                        <select class="form-select form-select-sm" name="typeOfExamination" id="typeOfExamination">
+                                            
+                                            <option value="Mid-year Examination">Mid-year Examination</option>
+                                            <option value="Final-year Examination">Final-year Examination</option>
+                                            
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-6">
 
-                                        </div>
-                                        <div class="col-md-6 text-end">
-                                            <button class="btn btn-success mx-1">Submit</button>
-                                        </div>
+                                    </div>
+                                    <div class="col-md-6 text-end">
+                                        <button class="btn btn-success mx-1">Submit</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    
+                    </div>
                 </div>
             </div>
         </div>
