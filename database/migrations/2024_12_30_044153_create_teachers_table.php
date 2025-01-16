@@ -13,10 +13,8 @@ return new class extends Migration
     {
         Schema::create('teachers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id');
-            $table->foreignId('classroom_id');
-            $table->string('staff_id');
-            $table->string('kafaName');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('classroom_id')->constrained('classrooms')->onDelete('cascade');//guru kelas
             $table->timestamps();
         });
     }

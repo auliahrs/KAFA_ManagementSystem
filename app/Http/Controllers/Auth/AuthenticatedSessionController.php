@@ -30,7 +30,7 @@ class AuthenticatedSessionController extends Controller
 
         if($request->user()->role == 'kafa')
         {
-            return redirect(route('kafa.manageActivity'));
+            return redirect(route('timetable.index'));
         }
         elseif($request->user()->role == 'muip')
         {
@@ -42,7 +42,7 @@ class AuthenticatedSessionController extends Controller
         }
         elseif($request->user()->role == 'teacher')
         {
-            return redirect(route('teacher.manageActivity'));
+            return redirect(route('timetable.index'));
         }
 
         return redirect()->intended(route('dashboard'));

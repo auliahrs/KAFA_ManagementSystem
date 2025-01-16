@@ -13,9 +13,12 @@ return new class extends Migration
     {
         Schema::create('timetables', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('classroom_id');
-            $table->string('day');
-            $table->string('time');
+            $table->foreignId('classroom_id')->constrained('classrooms')->references('id');
+            $table->foreignId('subject_id')->constrained('subjects')->references('id');
+            $table->foreignId('teacher_id')->constrained('teachers')->references('id');
+            $table->string('weekday');
+            $table->time('start_time');
+            $table->time('end_time');
             $table->timestamps();
         });
     }

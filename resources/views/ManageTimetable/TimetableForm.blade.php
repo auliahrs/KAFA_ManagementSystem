@@ -1,16 +1,133 @@
 @extends('../master/kafa')
 @section('content')
-	<div class="container mt-1">
-		<h3 class="mb-4">Timetable</h3>
+	<div class="container">
+		<h3>Create Timetable</h3>
 
-		<form method="POST" action="{{ route('timetable.store') }}">
-			@csrf
-			<div class="form-group d-flex justify-content-between">
+			<div class="card mb-3">
+				<div class="card-body">
+					<form action="{{ isset($timetable) ? route('timetable.update', $timetable->id) : route('timetable.save') }}" method="{{ isset($timetable) ? 'POST' : 'POST' }}" class="row g-3">
+						@csrf
+						@if (isset($timetable))
+							@method('PUT')
+						@endif
+			
+						<div>
+							<p><b>Please enter the timetable details.</b></p>
+						</div>
+			
+						@if ($errors->any())
+							<div class="alert alert-danger">
+								<ul>
+									@foreach ($errors->all() as $error)
+										<li>{{ $error }}</li>
+									@endforeach
+								</ul>
+							</div>
+						@endif
+			
+						<div class="row mb-4">
+							<div class="col-md-4">
+								<label for="classroom_id" class="form-label">Classroom</label>
+								<select class="form-select" name="classroom_id">
+									<option value="" selected>Select classroom</option>
+									@foreach ($classes as $class)
+										<option value="{{ $class->id }}" {{ isset($timetable) && $timetable->classroom_id == $class->id ? 'selected' : '' }}>
+											{{ $class->id }} - {{ Str::title($class->classroomName) }}
+										</option>
+									@endforeach
+								</select>
+							</div>
+							<div class="col-md-4">
+								<label for="subject_id" class="form-label">Subject</label>
+								<select class="form-select" name="subject_id">
+									<option value="" selected>Select subject</option>
+									@foreach ($subjects as $subject)
+										<option value="{{ $subject->id }}" {{ isset($timetable) && $timetable->subject_id == $subject->id ? 'selected' : '' }}>
+											{{ $subject->id }} - {{ Str::title($subject->subjectName) }}
+										</option>
+									@endforeach
+								</select>
+							</div>
+							<div class="col-md-4">
+								<label for="teacher_id" class="form-label">Teacher</label>
+								<select class="form-select" name="teacher_id">
+									<option value="" selected>Select teacher</option>
+									@foreach ($teachers as $teacher)
+										<option value="{{ $teacher->id }}" {{ isset($timetable) && $timetable->teacher_id == $teacher->id ? 'selected' : '' }}>
+											{{ $teacher->id }} - {{ Str::title($teacher->user->name) }}
+										</option>
+									@endforeach
+								</select>
+							</div>
+						</div>
+			
+						<div class="row mb-4">
+							<div class="col-md-4">
+								<label for="weekday" class="form-label">Day</label>
+								<select class="form-select" name="weekday">
+									<option value="" selected>Select weekday</option>
+									@foreach (['monday', 'tuesday', 'wednesday', 'thursday', 'friday'] as $weekday)
+										<option value="{{ $weekday }}" {{ isset($timetable) && $timetable->weekday == $weekday ? 'selected' : '' }}>
+											{{ Str::title($weekday) }}
+										</option>
+									@endforeach
+								</select>
+							</div>
+							<div class="col-md-4">
+								<label for="start_time" class="form-label">Choose start time</label>
+								{{-- <select class="form-select" name="start_time">
+									<option value="" selected>Select start time</option>
+									@foreach (['08:30', '09:00', '09:30', '10:30', '11:00'] as $time)
+										<option value="{{ $time }}" {{ isset($timetable) && $timetable->start_time == $time ? 'selected' : '' }}>
+											{{ $time }}
+										</option>
+									@endforeach
+								</select> --}}
+								<select class="form-select" name="start_time">
+									<option value="" selected>Select start time</option>
+									@foreach (['08:30', '09:00', '09:30', '10:30', '11:00'] as $time)
+										<option value="{{ $time }}" {{ isset($timetable) && \Carbon\Carbon::parse($timetable->start_time)->format('H:i') == $time ? 'selected' : '' }}>
+											{{ $time }}
+										</option>
+									@endforeach
+								</select>
+							</div>
+							<div class="col-md-4">
+								<label for="end_time" class="form-label">Choose end time</label>
+								{{-- <select class="form-select" name="end_time">
+									<option value="" selected>Select end time</option>
+									@foreach (['09:00', '09:30', '10:00', '11:00', '11:30'] as $time)
+										<option value="{{ $time }}" {{ isset($timetable) && $timetable->end_time == $time ? 'selected' : '' }}>
+											{{ $time }}
+										</option>
+									@endforeach
+								</select> --}}
+								<select class="form-select" name="end_time">
+									<option value="" selected>Select end time</option>
+									@foreach (['09:00', '09:30', '10:00', '11:00', '11:30'] as $time)
+										<option value="{{ $time }}" {{ isset($timetable) && \Carbon\Carbon::parse($timetable->end_time)->format('H:i') == $time ? 'selected' : '' }}>
+											{{ $time }}
+										</option>
+									@endforeach
+								</select>
+							</div>
+						</div>
+			
+						<div class="mb-3">
+							<a href="{{ route('timetable.save') }}" class="btn btn-danger">Cancel</a>
+							<button type="submit" class="btn btn-success">Save</button>
+						</div>
+					</form>
+				</div>
+			</div>
+			
+
+			{{-- <div class="form-group d-flex justify-content-between">
 				<div class="flex-grow-1 mr-2">
 					<label for="teacherSelect" style="margin-left: 10px">Select Teacher:</label>
-					<select id="teacherSelect" name="teacher_id" class="form-control" style="width:50%; margin-left: 10px">
+					<select name="staff_id" class="form-control" style="width:50%; margin-left: 10px">
 						@foreach ($teachers as $teacher)
-							<option value="{{ $teacher->id }}">{{ $teacher->name }}</option>
+							<option value="{{ $teacher->staff_id }}">{{ $teacher->staff_id }} - {{ $teacher->user->name }}</option>
 						@endforeach
 					</select>
 				</div>
@@ -190,6 +307,8 @@
                 <td></td>
                 <td></td>
 						</tr>
+
+
 					</tbody>
 				</table>
 
@@ -197,15 +316,13 @@
 					<button type="submit" class="btn btn-primary mr-2">Save</button>
 					<button onclick="window.location.href='{{ route('kafa.viewTimetable') }}'" type="button" class="btn btn-danger">Cancel</button>
 				</div>
-			</div>
-		</form>
+			</div> --}}
+		{{-- </form> --}}
 	</div>
 
 	<!-- Add Bootstrap and jQuery JS -->
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
 	<script src="https://maxcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
-		integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-		crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 @endsection

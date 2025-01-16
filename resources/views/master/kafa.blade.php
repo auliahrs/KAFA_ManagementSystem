@@ -1,3 +1,7 @@
+@php
+    $user = Auth::user();
+@endphp
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -38,8 +42,8 @@
             <ul class="list-unstyled text-white py-2">
                 <span class="fw-bold h5">Activity</span>
                 <li>
-                    <form method="GET" action="{{route('kafa.viewTimetable')}}" class="d-inline">
-                        <button type="submit" class="btn btn-link nav-link p-0" style="color: inherit;">
+                    <form method="GET" action="{{ route('timetable.index') }}" class="d-inline">
+                        <button type="submit" class="btn btn-link nav-link p-0 {{ Request::is('timetable*') ? 'active' : '' }}" style="color: inherit;">
                             <i class="fas fa-table"></i><span class="item"> Class Timetable</span>
                         </button>
                     </form>
@@ -53,7 +57,7 @@
                 </li>
                 <li>
                     <form method="GET" action="{{route('kafa.manageActivity')}}" class="d-inline">
-                        <button type="submit" class="btn btn-link nav-link p-0 active" style="color: inherit;">
+                        <button type="submit" class="btn btn-link nav-link p-0" style="color: inherit;">
                             <i class="fas fa-pencil"></i><span class="item"> Activity</span>
                         </button>
                     </form>
@@ -67,6 +71,8 @@
                 </li>
             </ul>
             
+            @can('kafa')
+                
             <ul class="list-unstyled text-white py-2">
                 <span class="fw-bold h5">Report</span>
                 <li>
@@ -95,6 +101,7 @@
                     </form>
                 </li>
             </ul>
+            @endcan
             
             <ul class="list-unstyled text-white py-2">
                 <span class="fw-bold h5">Profile</span>
@@ -126,15 +133,36 @@
         <!-- Breadcrumb -->
         <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb" class="bg-white pt-1">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#"
-                        class="text-dark link-underline-dark link-underline-opacity-0 link-underline-opacity-75-hover">
-                        Home </a></li>
-                <li class="breadcrumb-item"><a href="#"
-                        class="text-dark link-underline-dark link-underline-opacity-0 link-underline-opacity-75-hover">
-                        About </a></li>
-                <li class="breadcrumb-item active" aria-current="page"><a href="#"
-                        class="text-dark link-underline-dark link-underline-opacity-0 link-underline-opacity-75-hover">
-                        Staff </a></li>
+                <li class="breadcrumb-item">
+                    <a href="#" class="text-dark link-underline-dark link-underline-opacity-0 link-underline-opacity-75-hover">
+                        Home
+                    </a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a href="#" class="text-dark link-underline-dark link-underline-opacity-0 link-underline-opacity-75-hover">
+                        About
+                    </a>
+                </li>
+                
+                @if ($user && $user->role === 'kafa')
+                    <li class="breadcrumb-item active" aria-current="page">
+                        <a href="#" class="text-dark link-underline-dark link-underline-opacity-0 link-underline-opacity-75-hover">
+                            KAFA
+                        </a>
+                    </li>
+                @elseif ($user && $user->role === 'teacher')
+                    <li class="breadcrumb-item active" aria-current="page">
+                        <a href="#" class="text-dark link-underline-dark link-underline-opacity-0 link-underline-opacity-75-hover">
+                            Teacher
+                        </a>
+                    </li>
+                @elseif ($user && $user->role === 'guardian')
+                    <li class="breadcrumb-item active" aria-current="page">
+                        <a href="#" class="text-dark link-underline-dark link-underline-opacity-0 link-underline-opacity-75-hover">
+                            Guardian
+                        </a>
+                    </li>
+                @endif
             </ol>
         </nav>
         <!-- End Breadcrumb -->

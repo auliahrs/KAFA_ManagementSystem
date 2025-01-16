@@ -10,8 +10,8 @@ class Classroom extends Model
     use HasFactory;
 
     protected $fillable = [
-        'classroomName', // Add name of classroom  field
-        'classroomYear', // Add year of classroom field
+        'classroomName', 
+        'classroomYear', 
     ];
 
 

@@ -38,7 +38,7 @@
 			<ul class="list-unstyled text-white py-2">
 				<span class="fw-bold h5">Activity</span>
 				<li>
-					<a href="{{ route('guardian.viewTimetable') }}" class="nav-link" style="color: inherit;">
+					<a href="{{ route('timetable.index') }}" class="nav-link" style="color: inherit;">
 						<i class="fas fa-table"></i><span class="item"> Class Timetable</span>
 
 				</li>
@@ -114,7 +114,7 @@
 						About </a></li>
 				<li class="breadcrumb-item active" aria-current="page"><a href="#"
 						class="text-dark link-underline-dark link-underline-opacity-0 link-underline-opacity-75-hover">
-						Staff </a></li>
+						Guardian </a></li>
 			</ol>
 		</nav>
 		<!-- End Breadcrumb -->

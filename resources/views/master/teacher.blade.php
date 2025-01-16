@@ -38,7 +38,7 @@
             <ul class="list-unstyled text-white py-2">
                 <span class="fw-bold h5">Activity</span>
                 <li>
-                    <a href="{{ route('teacher.viewTimetable') }}" class="nav-link" style="color: inherit;">
+                    <a href="{{ route('timetable.index') }}" class="nav-link" style="color: inherit;">
                         <i class="fas fa-table"></i><span class="item"> Class Timetable</span>
                     </a>
                     

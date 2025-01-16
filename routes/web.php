@@ -77,12 +77,27 @@ Route::controller(StudentResultController::class)->middleware('auth')->group(fun
 });
 
 Route::controller(TimetableController::class)->middleware('auth')->group(function () {
-    Route::get('/teacher/viewTimetable', 'teacherviewtimetable')->name('teacher.viewTimetable');
-    Route::get('/guardian/viewTimetable', 'guardianviewtimetable')->name('guardian.viewTimetable');
-    Route::get('/kafa/viewTimetable', 'kafaviewtimetable')->name('kafa.viewTimetable');
-    Route::get('/kafa/addTimetable', 'kafaaddtimetable')->name('kafa.addTimetable');
-    Route::get('/kafa/editTimetable', 'kafaedittimetable')->name('kafa.editTimetable');
-    Route::resource('timetable', TimetableController::class);
+    //routes to display the timetable index page
+Route::get('/timetable', [TimetableController::class, 'index'])->name('timetable.index');
+
+//route to display the timetable form
+Route::get('/timetable/create-timetable', [TimetableController::class, 'showCreateTimetable'])->name('timetable.create');
+
+//route to submit the timetable form data
+Route::post('/timetable/create-timetable', [TimetableController::class, 'saveTimetable'])->name('timetable.save');
+
+//route to display the view timetable
+Route::get('timetable/{id}/view-timetable', [TimetableController::class, 'viewTimetable'])->name('timetable.view');
+
+//route to edit the timetable
+Route::get('/timetable/{id}/update-timetable', [TimetableController::class, 'editTimetable'])->name('timetable.edit');
+
+//route to update the timetable
+Route::put('/timetable/{id}/update-timetable', [TimetableController::class, 'updateTimetable'])->name('timetable.update');
+
+//route to delete the timetable
+Route::delete('/timetable/{id}/delete-timetable', [TimetableController::class, 'deleteTimetable'])->name('timetable.delete');
+
 });
 
 require __DIR__.'/auth.php';

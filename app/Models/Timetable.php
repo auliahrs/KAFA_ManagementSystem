@@ -9,13 +9,37 @@ class Timetable extends Model
 {
     use HasFactory;
 
+    protected $table = 'timetables';
+
     protected $fillable = [
-        'day', // Add day field
-        'time', // Add time field
+        // 'day', // Add day field
+        // 'time', // Add time field
+        'classroom_id',
+        'subject_id',
+        'teacher_id',
+        'weekday',
+        'start_time',
+        'end_time',
     ];
 
-    public function classroom(){
+    protected $casts = [
+        'start_time' => 'datetime', // Cast start_time to Carbon
+        'end_time' => 'datetime', // Cast end_time to Carbon
+    ];
 
-        return $this->belongsTo(Classroom::class);
+    public function timetable() {
+        return $this->belongsTo(Timetable::class);
+    }
+
+    public function classroom(){
+        return $this->belongsTo(Classroom::class, 'classroom_id');
+    }
+
+    public function subject(){
+        return $this->belongsTo(Subject::class, 'subject_id');
+    }
+
+    public function teacher(){
+        return $this->belongsTo(Teacher::class, 'teacher_id');
     }
 }
