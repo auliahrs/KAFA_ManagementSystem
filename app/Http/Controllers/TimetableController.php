@@ -21,7 +21,7 @@ class TimetableController extends Controller
 
     public function index(){
 
-        $user = Auth::user(); // Get the currently authenticated user
+        $user = Auth::user();
 
         if ($user->role === 'teacher') {
             $teacher = $user->teacher;
