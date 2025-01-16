@@ -18,8 +18,8 @@ class Guardian extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function student(){
-
-        return $this->hasMany(Student::class);
+    public function children(){
+        
+        return $this->hasMany(Student::class, 'guardian_id');
     }
 }

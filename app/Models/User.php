@@ -73,4 +73,8 @@ class User extends Authenticatable
 
         return $this->hasOne(Teacher::class);
     }
+
+    public function children(){
+        return $this->hasMany(Student::class, 'guardian_id');
+    }
 }

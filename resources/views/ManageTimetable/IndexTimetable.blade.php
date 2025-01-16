@@ -1,43 +1,6 @@
 @extends('../master/kafa')
 
 @section('content')
-	{{-- <div class="container mt-1">
-		<h3 class="mb-4">List of Timetable</h3>
-		@can('kafa')
-			<a href="{{ route('timetable.create') }}" class="btn btn-primary mb-3">Create timetable</a>
-		@endcan
-		<table class="table table-bordered table-striped">
-			<thead>
-				<tr>
-					<th class="text-center bg-secondary">Id</th>
-					<th class="text-center bg-secondary">Classroom</th>
-					<th class="text-center bg-secondary">Teacher</th>
-					<th class="text-center bg-secondary">Action</th>
-				</tr>
-			</thead>
-			<tbody>
-				@forelse ($timetables as $timetable)
-					<tr>
-						<td class="text-center">{{ $timetable->id }}</td>
-						<td class="text-center">{{ $timetable->classroom->classroomName }}</td>
-						<td class="text-center">{{ $timetable->teacher->user->name }}</td>
-						<td class="text-center">
-							<a href="{{ route('timetable.view', $timetable->id) }}" class="btn btn-warning">View<i class="fa fa-eye" aria-hidden="true"></i></a>
-							@can ('kafa')
-								<a href="{{ url('timetable/'.$timetable->id.'/update-timetable') }}" class="btn btn-info">Edit<i class="fa fa-edit" aria-hidden="true"></i></a>
-								<a href="{{ url('timetable/'.$timetable->id.'/delete-timetable') }}" class="btn btn-danger" 
-									onclick="return confirm('Are you sure to delete this timetable?')">Delete<i class="fa fa-trash" aria-hidden="true"></i></a>
-							@endcan
-						</td>
-					</tr>
-				@empty
-					<tr>
-						<td colspan="4" class="text-center">No timetables available.</td>
-					</tr>
-				@endforelse
-			</tbody>
-		</table>
-	</div> --}}
 	<div class="container mt-1">
 		<h3 class="mb-4">List of Timetable</h3>
 		@can('kafa')
@@ -48,7 +11,6 @@
 			<div class="d-flex justify-content-between align-items-center mb-2">
 				<h4>{{ $classroomName }}</h4>
 				<a href="{{ route('timetable.view', $timetables->first()->id) }}" class="btn btn-warning">View<i class="fa fa-eye" aria-hidden="true"></i></a>
-				{{-- <a href="{{ route('timetable.view', $timetables->id) }}" class="btn btn-warning">View<i class="fa fa-eye" aria-hidden="true"></i></a> --}}
 			</div>
 			<table class="table table-bordered table-striped">
 				<thead>
@@ -78,8 +40,6 @@
 							@can ('kafa')
 							<td class="text-center">
 									<a href="{{ url('timetable/'.$timetable->id.'/update-timetable') }}" class="btn btn-info">Edit<i class="fa fa-edit" aria-hidden="true"></i></a>
-									{{-- <a href="{{ url('timetable/'.$timetable->id.'/delete-timetable') }}" class="btn btn-danger" 
-										onclick="return confirm('Are you sure to delete this timetable?')">Delete<i class="fa fa-trash" aria-hidden="true"></i></a> --}}
 										<form action="{{ route('timetable.delete', $timetable->id) }}" method="POST" style="display:inline;">
 											@csrf
 											@method('DELETE') <!-- Method spoofing for DELETE -->

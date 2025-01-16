@@ -73,34 +73,34 @@
             
             @can('kafa')
                 
-            <ul class="list-unstyled text-white py-2">
-                <span class="fw-bold h5">Report</span>
-                <li>
-                    <form method="GET" action="{{route('kafa.listReportActivity')}}" class="d-inline">
-                        <button type="submit" class="btn btn-link nav-link p-0" style="color: inherit;">
-                            <i class="fas fa-book-open"></i><span class="item"> Report Activity</span>
-                        </button>
-                    </form>
-                </li>
-            </ul>
-            
-            <ul class="list-unstyled text-white py-2">
-                <span class="fw-bold h5">Approve</span>
-                <li>
-                    <form method="" action="" class="d-inline">
-                        <button type="submit" class="btn btn-link nav-link p-0" style="color: inherit;">
-                            <i class="fas fa-user-plus"></i><span class="item"> Approve Student</span>
-                        </button>
-                    </form>
-                </li>
-                <li>
-                    <form method="" action="" class="d-inline">
-                        <button type="submit" class="btn btn-link nav-link p-0" style="color: inherit;">
-                            <i class="fas fa-user-plus"></i><span class="item"> Approve Teacher</span>
-                        </button>
-                    </form>
-                </li>
-            </ul>
+                <ul class="list-unstyled text-white py-2">
+                    <span class="fw-bold h5">Report</span>
+                    <li>
+                        <form method="GET" action="{{route('kafa.listReportActivity')}}" class="d-inline">
+                            <button type="submit" class="btn btn-link nav-link p-0" style="color: inherit;">
+                                <i class="fas fa-book-open"></i><span class="item"> Report Activity</span>
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+                
+                <ul class="list-unstyled text-white py-2">
+                    <span class="fw-bold h5">Approve</span>
+                    <li>
+                        <form method="" action="" class="d-inline">
+                            <button type="submit" class="btn btn-link nav-link p-0" style="color: inherit;">
+                                <i class="fas fa-user-plus"></i><span class="item"> Approve Student</span>
+                            </button>
+                        </form>
+                    </li>
+                    <li>
+                        <form method="" action="" class="d-inline">
+                            <button type="submit" class="btn btn-link nav-link p-0" style="color: inherit;">
+                                <i class="fas fa-user-plus"></i><span class="item"> Approve Teacher</span>
+                            </button>
+                        </form>
+                    </li>
+                </ul>
             @endcan
             
             <ul class="list-unstyled text-white py-2">
