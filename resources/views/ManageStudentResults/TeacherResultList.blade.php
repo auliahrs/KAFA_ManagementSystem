@@ -9,6 +9,35 @@
         </div>
     @endif
     <h1 class="mb-4">Student Results</h1>
+    <!-- Search Section Start-->
+    <form method="GET" action="{{ route('teacher.filterStudents') }}" class="mb-4">
+        <div class="row">
+            <!-- Search by Student Name -->
+            <div class="col-md-6">
+                <label for="studentName" class="form-label">Search by Name:</label>
+                <input type="text" name="studentName" id="studentName" class="form-control" value="{{ request('studentName') }}" placeholder="Enter student name">
+            </div>
+            <!-- Search by Standard/Class -->
+            <div class="col-md-6">
+                <label for="classroom" class="form-label">Search by Standard/Class:</label>
+                <select name="classroom" id="classroom" class="form-select">
+                    <option value="" selected>All Classes</option>
+                    @foreach($classrooms as $classroom)
+                        <option value="{{ $classroom->id }}" {{ request('classroom') == $classroom->id ? 'selected' : '' }}>
+                            {{ $classroom->classroomName }}
+                        </option>
+                    @endforeach
+                </select>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-md-12 text-end">
+                <button class="btn" type="submit" style="background-color: #638E6B; color: white;">Search</button>
+                <a href="{{ route('teacher.listStudent') }}" class="btn btn-secondary">Reset</a>
+            </div>
+        </div>
+    </form>
+    <!-- Search Section End-->
     <table class="table table-success rounded-4 w-100">
         <thead class="table-secondary">
             <tr>

@@ -74,6 +74,7 @@ Route::controller(StudentResultController::class)->middleware('auth')->group(fun
     Route::get('/teacher/editResult/{studentID}', 'teacherEditResult')->name('teacher.editResult');
     Route::get('/teacher/filterResult', 'teacherFilterResult')->name('teacher.filterResult');
     Route::post('/teacher/manage-result', 'store')->name('teacher.storeResult');
+    Route::get('/teacher/filterStudents', [StudentResultController::class, 'teacherListStudent'])->name('teacher.filterStudents');
 });
 
 Route::controller(TimetableController::class)->middleware('auth')->group(function () {

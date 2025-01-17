@@ -12,14 +12,33 @@ use Illuminate\Support\Facades\Log;
 
 class StudentResultController extends Controller
 {
-    //Display a list of student.
-    public function teacherListStudent()
+    // Display a list of students with filtering capabilities
+    public function teacherListStudent(Request $request)
     {
-        // Retrieve all students from the database
-        $students = Student::all();
+        // Retrieve classrooms for dropdown
+        $classrooms = Classroom::all();
 
-        // Return the data to the view
-        return view('ManageStudentResults.TeacherResultList', ['students' => $students]);
+        // Initialize the query
+        $query = Student::query();
+
+        // Apply filtering by student name
+        if ($request->filled('studentName')) {
+            $query->where('studentName', 'like', '%' . $request->input('studentName') . '%');
+        }
+
+        // Apply filtering by classroom
+        if ($request->filled('classroom')) {
+            $query->where('classroom_id', $request->input('classroom'));
+        }
+
+        // Retrieve the filtered list of students
+        $students = $query->get();
+
+        // Pass data to the view
+        return view('ManageStudentResults.TeacherResultList', [
+            'students' => $students,
+            'classrooms' => $classrooms,
+        ]);
     }
     
     //Show the form to add a new result.
