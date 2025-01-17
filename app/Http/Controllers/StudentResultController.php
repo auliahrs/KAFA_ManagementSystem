@@ -8,7 +8,7 @@ use App\Models\Classroom;
 use App\Models\Subject;
 use App\Models\Result;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log; // Add this line
+use Illuminate\Support\Facades\Log;
 
 class StudentResultController extends Controller
 {
@@ -123,7 +123,6 @@ class StudentResultController extends Controller
     }
 }
 
-
     //Display student's result.
     public function teacherViewResult($studentID)
     {
@@ -150,7 +149,7 @@ class StudentResultController extends Controller
 
     public function teacherFilterResult(Request $request)
     {
-        $studentId = $request->input('student_id'); // Assume this is passed in the form
+        $studentId = $request->input('student_id');
         $year = $request->input('year');
         $typeOfExamination = $request->input('typeOfExamination');
 
@@ -160,7 +159,7 @@ class StudentResultController extends Controller
 
         // Filter results based on the selected year and type of examination
         $query = Result::where('student_id', $studentId);
-        
+
         if ($year) {
             $query->where('year', $year);
         }
@@ -171,46 +170,115 @@ class StudentResultController extends Controller
 
         $results = $query->get();
 
+        // Fetch all results for the student
         $resultsAll = Result::where('student_id', $studentId)->get();
 
-        //lets calculate total marks
-        $totalmarks = $results->sum('marks');
+        // Calculate total marks
+        $totalMarks = $results->sum('marks');
 
-        //lets calculate percentage
-        $percentage = $totalmarks/8 * 100;
+        // Calculate percentage
+        $percentage = $results->count() > 0 ? round(($totalMarks / ($results->count() * 100)) * 100, 2) : 0;
 
-        // Fetch results for all students in the same class, year, and examination type
+        // Calculate the ranking in the class
+        $rankingsInClass = $this->calculateRankingInClass($studentId, $year, $typeOfExamination);
+        $studentRank = array_search($studentId, array_keys($rankingsInClass)) + 1;
+
+        // Total number of students in the same class and exam type
+        $totalStudentsInClass = count($rankingsInClass);
+
+        // Calculate the ranking in the standard
+        $rankingsInStandard = $this->calculateRankingInStandard($typeOfExamination, $year);
+        $rankInStandard = array_search($studentId, array_keys($rankingsInStandard)) + 1;
+
+        // Total number of students in the standard
+        $totalStudentsInStandard = count($rankingsInStandard);
+
+        // Fetch the comment for the selected type of examination
+        $comment = Result::where('student_id', $studentId)
+                        ->where('typeOfExamination', $typeOfExamination)
+                        ->value('comment');
+
+        // Pass the selected year and type back to the view
+        return view('ManageStudentResults.StudentViewResult', compact(
+            'results', 
+            'resultsAll', 
+            'student', 
+            'classroom', 
+            'totalMarks', 
+            'percentage', 
+            'studentRank', 
+            'rankInStandard', 
+            'totalStudentsInClass', 
+            'totalStudentsInStandard', 
+            'comment',
+            'year', // Pass back selected year
+            'typeOfExamination' // Pass back selected type of exam
+        ))->with(['filter' => true, 'selectedYear' => $year, 'selectedType' => $typeOfExamination]);
+    }
+
+    //To calculate total marks
+    public function calculateTotalMarks($studentId, $typeOfExamination)
+    {
+        // Retrieve all results for the given student and type of examination
+        $results = Result::where('student_id', $studentId)
+                        ->where('typeOfExamination', $typeOfExamination)
+                        ->get();
+
+        // Calculate the total marks
+        $totalMarks = $results->sum('marks');
+
+        return $totalMarks;
+    }
+
+    private function calculateRankingInClass($studentID, $year, $typeOfExamination)
+    {
+        // Get the student's classroom ID
+        $student = Student::findOrFail($studentID);
+        $classroomId = $student->classroom_id;
+
+        // Fetch results for all students in the same classroom, year, and examination type
+        $allResults = Result::where('year', $year)
+                            ->where('typeOfExamination', $typeOfExamination)
+                            ->whereIn('student_id', function ($query) use ($classroomId) {
+                                $query->select('id')
+                                    ->from('students')
+                                    ->where('classroom_id', $classroomId);
+                            })
+                            ->get()
+                            ->groupBy('student_id');
+
+        // Calculate total marks for each student
+        $studentTotalMarks = [];
+        foreach ($allResults as $id => $studentResults) {
+            $studentTotalMarks[$id] = $studentResults->sum('marks');
+        }
+
+        // Sort students by total marks in descending order
+        arsort($studentTotalMarks);
+
+        // Return the rankings as an array
+        return $studentTotalMarks;
+    }
+
+    private function calculateRankingInStandard($typeOfExamination, $year)
+    {
+        // Fetch results for all students in the selected year and type of examination
         $allResults = Result::where('year', $year)
                             ->where('typeOfExamination', $typeOfExamination)
                             ->get()
                             ->groupBy('student_id');
 
-        //lets determine student ranking in class
-        // Calculate percentages for all students
-        $studentPercentages = [];
-        foreach ($allResults as $studentId => $studentResults) {
-            $studentTotalMarks = $studentResults->sum('marks');
-            $studentPercentages[$studentId] = $studentTotalMarks / 8 * 100;
+        // Calculate total marks for each student
+        $studentTotalMarks = [];
+        foreach ($allResults as $id => $studentResults) {
+            $studentTotalMarks[$id] = $studentResults->sum('marks');
         }
 
-        // Sort students by percentage in descending order and determine ranking
-        arsort($studentPercentages);
-        $rankings = array_keys($studentPercentages);
+        // Sort students by total marks in descending order
+        arsort($studentTotalMarks);
 
-        // Determine the rank of the specific student
-        $studentRank = array_search($studentId, $rankings) + 1;
-
-        return view('ManageStudentResults.StudentViewResult', compact('totalmarks', 'percentage', 'studentRank', 'results', 'resultsAll', 'student', 'classroom'))->with('filter', true);
-    }
-
-    private function calculateRankingInClass($studentID) {
-        //get current student info
-        $student = Student::findOrFail($studentID);
-
-        //lets get all students in the same class shall we
-        $studentSameClass = Student::where('classroom_id', $student->classroom_id);
-
-        //
+        // Return the rankings as an array
+        return $studentTotalMarks;
     }
 
     private function calculateGrade($mark)

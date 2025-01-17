@@ -110,7 +110,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12 p-5">
-                    <div class="container bg-success px-0 pt-5 w-100 h-100 rounded-4">
+                    <div class="container bg-success px-2 pt-2 w-100 h-100 rounded-4">
 
                         @yield('content')
 

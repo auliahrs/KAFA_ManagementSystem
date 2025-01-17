@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.custom-green-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+}
+
+.custom-green-btn:hover {
+    background-color: #218838; /* Slightly darker green for hover */
+    color: white;
+}
